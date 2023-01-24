@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import random
 import math
-import bektore_sortzailea as bs
+import AUTOZUZENKETAK.bektore_sortzailea as bs
 import pyautogui
 
 
