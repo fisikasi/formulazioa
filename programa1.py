@@ -4,7 +4,7 @@ import numpy as np
 import random
 import math
 import AUTOZUZENKETAK.bektore_sortzailea as bs
-import pyautogui
+
 
 
 #STREAMLIT ORRIALDEA
@@ -271,8 +271,7 @@ if __name__ == '__main__':
             main(n, zailtasuna(ariketa_mota))
         if aukera=="Tradizionalik gabe":
             main_no_tradizionala(n, zailtasuna(ariketa_mota))
-        if st.button("Garbitu", key="Garbitu"):
-                pyautogui.hotkey("ctrl", "F5")
+
 
 
 
