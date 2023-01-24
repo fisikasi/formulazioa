@@ -3,11 +3,13 @@ import pandas as pd
 import numpy as np
 import random
 import math
+from pathlib import Path
 
 #------------------------------------HIDRUROAK----------------------------------------------------
                     #------------FORMULAK IDAZTEKO----------------
 def df_hidruroak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    print(Path().cwd())
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Hidruro Metalikoa","Hidruro Ez metalikoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -21,7 +23,7 @@ def bekt_hidruro_form(n):
     return emaitza
                         #------------IZENAK IDAZTEKO---------------
 def df_hidruroak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Hidruro Metalikoa","Hidruro Ez metalikoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -37,7 +39,7 @@ def bekt_hidruro_izena(n):
                     # ------------FORMULAK IDAZTEKO----------------
 
 def df_oxidoak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Oxido Metalikoa", "Anhidridoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -51,7 +53,7 @@ def bekt_oxido_form(n):
     return emaitza
                 # ------------IZENAK IDAZTEKO---------------
 def df_oxidoak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Oxido Metalikoa", "Anhidridoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -67,7 +69,7 @@ def bekt_oxido_izena(n):
                     # ------------FORMULAK IDAZTEKO----------------
 
 def df_gatzbitarrak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Gatz Bitarra (M+EM)","Gatz bitarra (EM+EM)"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -81,7 +83,7 @@ def bekt_gatzbitarra_form(n):
     return emaitza
                     # ------------IZENAK IDAZTEKO---------------
 def df_gatzbitarrak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Gatz Bitarra (M+EM)","Gatz bitarra (EM+EM)"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -94,7 +96,7 @@ def bekt_gatzbitarra_izena(n):
 #------------------------------------HIDROXIDOAK----------------------------------------------------
  # ------------FORMULAK IDAZTEKO----------------
 def df_hidroxidoak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Hidroxidoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -108,7 +110,7 @@ def bekt_hidroxido_form(n):
     return emaitza
  # ------------IZENAK IDAZTEKO---------------
 def df_hidroxidoak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Hidroxidoa"])]
     emaitza = df_hidruroak  # .to_numpy()
     return emaitza
@@ -122,7 +124,7 @@ def bekt_hidroxido_izena(n):
 #------------------------------------OXOAZIDOAK----------------------------------------------------
  # ------------FORMULAK IDAZTEKO----------------
 def df_oxoazidoak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Oxoazidoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -137,7 +139,7 @@ def bekt_oxoazido_form(n):
     return emaitza
  # ------------IZENAK IDAZTEKO---------------
 def df_oxoazidoak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Oxoazidoa"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -151,7 +153,7 @@ def bekt_oxoazido_izena(n):
 #------------------------------------GATZ HIRUTARRAK----------------------------------------------------
  # ------------FORMULAK IDAZTEKO----------------
 def df_gatzhirutarrak_izena():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK1.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK1.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Gatz hirutarrak"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -163,7 +165,7 @@ def bekt_gatzhirutarra_izena(n):
     return emaitza
  # ------------IZENAK IDAZTEKO---------------
 def df_gatzhirutarrak_formulak():
-    df = pd.read_excel(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\DATUAK.xlsx')
+    df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Gatz hirutarrak"])]
     emaitza=df_hidruroak#.to_numpy()
     return emaitza
@@ -175,6 +177,8 @@ def bekt_gatzhirutarra_form(n):
     #print("gatz3:", vector)
     emaitza = df.iloc[vector, 0:6]
     return emaitza
+
+
 
 def generate_vector(n, m):
     vector = []
