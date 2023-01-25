@@ -3,18 +3,38 @@ import pandas as pd
 import numpy as np
 import random
 import math
+from PIL import Image
 import AUTOZUZENKETAK.bektore_sortzailea as bs
 
-
+image = Image.open(r'./AUTOZUZENKETAK/fisikasi.png')
 
 #STREAMLIT ORRIALDEA
 #--------------------------------------------------
 st.set_page_config(layout="wide")
-st.session_state.text = ""
-st.markdown("<h1 style='text-align: center; color: black;'>Formulazioa Euskeraz by @FISIKASI</h1>", unsafe_allow_html=True)
-
+container1=st.container()
+link = '[F i s i k a s i/Formulazioa](https://www.youtube.com/watch?v=O-t8mW5ODVA&list=PL9OLH4hN0qlrpRazhdB210OQEy5HkrwdO)'
+st.markdown(link, unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: black;'>Formulazio ez-organikoa Euskeraz</h1>", unsafe_allow_html=True)
 #container1=st.container()
+expander = st.expander("Frogaren konfigurazioa")
+with container1:
+    st.image(image, width=200)
 container2=st.container()
+with expander:
+    ariketa_mota = st.selectbox(
+            'Aukeratu frogaren zailtasuna',
+            options=["Hidruroak", "Oxidoak", "Hidruroak + Oxidoak", "Gatz Bitarrak",
+                     "Hidruroak + Oxidoak + Gatz Bitarrak", "Hidroxidoak",
+                     "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak",
+                     "Oxoazidoak", "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak + Oxoazidoak",
+                     "Gatz Hirutarrak", "Oxoazidoak",
+                     "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak + Oxoazidoak + Gatz Hirutarrak"])
+    n = st.select_slider(
+            'Aukeratu galdera kopurua',
+            options=[4, 6, 8, 10, 12, 14, 16, 18, 20])
+    aukera = st.radio(
+            "Erabaki nomenklatura tradizionala erabili nahi duzun ala ez",
+            ('Tradizionalarekin', 'Tradizionalik gabe'))
 #with container1:
 #   st.markdown("<h3 style='text-align: center;"
 #              " color: black;'>OHARRAK</h3>",
@@ -25,28 +45,12 @@ container2=st.container()
 #    st.markdown("<div style='text-align: center; color: black;'>2."
 #                "- Konposaturen bat nomenklatura jakin batean izendatzen ez bada  *Ez da izendatzen* testua idatzi</div>",
 #                unsafe_allow_html=True)
-with container2:
-    ariketa_mota = st.selectbox(
-        'Aukeratu frogaren zailtasuna',
-        options=["Hidruroak","Oxidoak", "Hidruroak + Oxidoak", "Gatz Bitarrak",
-                 "Hidruroak + Oxidoak + Gatz Bitarrak", "Hidroxidoak",
-                 "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak",
-                 "Oxoazidoak", "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak + Oxoazidoak",
-                 "Gatz Hirutarrak", "Oxoazidoak", "Hidruroak + Oxidoak + Gatz Bitarrak + Hidroxidoak + Oxoazidoak + Gatz Hirutarrak"])
-    n = st.select_slider(
-        'Aukeratu galdera kopurua',
-        options=[4,6,8,10, 12, 14, 16, 18, 20])
-    aukera = st.radio(
-        "Erabaki nomenklatura tradizionala erabili nahi duzun ala ez",
-        ('Tradizionalarekin', 'Tradizionalik gabe'))
 
 
-menu=["Froga"]
-choice = st.sidebar.selectbox("Aukerak", menu)
-col1, col2= st.columns(2)
+col1, col2, col3= st.columns([3,1,3])
 with col1:
    st.header("Galderak")
-with col2:
+with col3:
    st.header("Erantzunak")
 
 #----ERANTZUNAK ONDO DAUDEN IKUSTEKO FUNTZIOAK--------
@@ -55,12 +59,12 @@ def check_answer(user_formulazioa, matrizea):
     nota=0
     for i in range(n):
         if user_formulazioa[i] == matrizea[0][i]:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.success("Erantzun zuzena!")
             nota=nota+1
         else:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.error(f"Ez, {i+1+n}. galderaren erantzun zuzena hurrengoa da:")
                 st.markdown(f" Formula:  {matrizea[0][i]} ")
@@ -70,12 +74,12 @@ def check_answer_no_trad(user_formulazioa, matrizea):
     nota=0
     for i in range(n):
         if user_formulazioa[i] == matrizea[0][i]:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.success("Erantzun zuzena!")
             nota=nota+1
         else:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.error(f"Ez, {i+1+n}. galderaren erantzun zuzena hurrengoa da:")
                 st.markdown(f" Formula:  {matrizea[0][i]} ")
@@ -103,26 +107,26 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
                     print(berria1)
                     if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower()==berria.lower()[:-1]\
                             or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[i].lower()==berria1.lower()[:-1]:
-                        with col2:
+                        with col3:
                             st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                             st.success("Erantzun zuzena!")
                         nota = nota + 1
                     else:
-                        with col2:
+                        with col3:
                             st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                             st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                             st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
                             st.markdown(f" Stock:  {matrizea[4][i]} ")
                             st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
             else:
-                with col2:
+                with col3:
                     st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                     st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                     st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
                     st.markdown(f" Stock:  {matrizea[4][i]} ")
                     st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
         else:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                 st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                 st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
@@ -151,19 +155,19 @@ def check_answer_1_no_tradizionala(stock_bek, sistematiko_bek, matrizea):
                 if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower() == berria.lower()[:-1] \
                         or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[
                     i].lower() == berria1.lower()[:-1]:
-                    with col2:
+                    with col3:
                         st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                         st.success("Erantzun zuzena!")
                     nota = nota + 1
                 else:
-                    with col2:
+                    with col3:
                         st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                         st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                         st.markdown(f" Stock:  {matrizea[4][i]} ")
                         st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
                         #print("2")
         else:
-            with col2:
+            with col3:
                 st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
                 st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                 st.markdown(f" Stock:  {matrizea[4][i]} ")
@@ -223,12 +227,15 @@ def main(n,maila):
             st.markdown(f"**{j + 1 + n}.-**  **{matrizea1[1][j]}** ")
             user_answer_form = st.text_input(f"Formula:", key=f'answer_form_{j + n}')
             user_answers_form.append(user_answer_form)
-    if st.button("Zuzendu", key="frogatu"):
+    if st.button("Ariketak zuzendu", key="frogatu"):
             puntuak = check_answer_1(user_answers_trad, user_answers_stock, user_answers_sist, matrizea1)
             puntuak = puntuak + check_answer(user_answers_form, matrizea1)
             st.header(f"Nota: {puntuak}/{2 * n}")
-            with container2:
-                st.header(f"Nota: {puntuak}/{2 * n}")
+    #with container2:
+    #    if st.button("Ariketak zuzendu", key="frogatu1"):
+     #       puntuak = check_answer_1(user_answers_trad, user_answers_stock, user_answers_sist, matrizea1)
+      #      puntuak = puntuak + check_answer(user_answers_form, matrizea1)
+       #     st.header(f"Nota: {puntuak}/{2 * n}")
 
 def main_no_tradizionala(n,maila):
     matrizea1 = bs.formulak_sortu_no_trad(n, maila)
@@ -251,12 +258,15 @@ def main_no_tradizionala(n,maila):
             st.markdown(f"**{j + 1 + n}.-**  **{matrizea1[1][j]}** ")
             user_answer_form = st.text_input(f"Formula:", key=f'answer_form_{j + n}')
             user_answers_form.append(user_answer_form)
-    if st.button("Zuzendu", key="frogatu"):
+    if st.button("Ariketak zuzendu", key="frogatu"):
             puntuak = check_answer_1_no_tradizionala(user_answers_stock, user_answers_sist, matrizea1)
             puntuak = puntuak + check_answer_no_trad(user_answers_form, matrizea1)
             st.header(f"Nota: {puntuak}/{2 * n}")
-            with container2:
-                st.header(f"Nota: {puntuak}/{2 * n}")
+    #with container2:
+     #   if st.button("Ariketak zuzendu", key="frogatu1"):
+      #      puntuak = check_answer_1_no_tradizionala(user_answers_stock, user_answers_sist, matrizea1)
+       #     puntuak = puntuak + check_answer_no_trad(user_answers_form, matrizea1)
+        #    st.header(f"Nota: {puntuak}/{2 * n}")
 
 
 
@@ -265,12 +275,11 @@ def main_no_tradizionala(n,maila):
 
 
 if __name__ == '__main__':
-    if choice == "Froga":
-        n = int(n / 2)
-        if aukera=="Tradizionalarekin":
-            main(n, zailtasuna(ariketa_mota))
-        if aukera=="Tradizionalik gabe":
-            main_no_tradizionala(n, zailtasuna(ariketa_mota))
+    n = int(n / 2)
+    if aukera=="Tradizionalarekin":
+        main(n, zailtasuna(ariketa_mota))
+    if aukera=="Tradizionalik gabe":
+        main_no_tradizionala(n, zailtasuna(ariketa_mota))
 
 
 
