@@ -6,8 +6,8 @@ import math
 from PIL import Image
 import AUTOZUZENKETAK.bektore_sortzailea as bs
 
-image = Image.open(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\fisikasi.png')
-
+#image = Image.open(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\fisikasi.png')
+image = Image.open(r'./AUTOZUZENKETAK/fisikasi.png')
 #STREAMLIT ORRIALDEA
 #--------------------------------------------------
 st.set_page_config(layout="wide")
