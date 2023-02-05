@@ -5,10 +5,17 @@ import random
 import math
 from pathlib import Path
 
+
+@st.cache
+@st.experimental_memo
+def nahastu(matrizea):
+    matrizea = np.array(matrizea)
+    np.random.shuffle(matrizea.T)
+    return
 #------------------------------------HIDRUROAK----------------------------------------------------
                     #------------FORMULAK IDAZTEKO----------------
 def df_hidruroak_formulak():
-    print(Path().cwd())
+    #print(Path().cwd())
     df = pd.read_excel(r'./AUTOZUZENKETAK/DATUAK.xlsx')
     df_hidruroak = df[df[df.columns[4]].isin(["Hidruro Metalikoa","Hidruro Ez metalikoa"])]
     emaitza=df_hidruroak#.to_numpy()
@@ -18,8 +25,7 @@ def bekt_hidruro_form(n):
     df=df_hidruroak_formulak()
     vector = np.array([random.randint(0, len(df)-1) for i in range(n)])
     #print(df.shape)
-    #print("hidruroak:",vector)
-    emaitza = df.iloc[vector, 0:5]
+    emaitza = df.iloc[vector, 0:6]
     return emaitza
                         #------------IZENAK IDAZTEKO---------------
 def df_hidruroak_izena():
@@ -31,7 +37,6 @@ def df_hidruroak_izena():
 def bekt_hidruro_izena(n):
     df=df_hidruroak_izena()
     vector = np.array([random.randint(0, len(df)) for i in range(n)])
-    #print(vector)
     emaitza = df.iloc[vector, 0:6]
     return emaitza
 
@@ -216,7 +221,9 @@ def formula_sortu_1(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #2.mailako bektorea sortzeko (Oxidoak)
 def formula_sortu_2(n):
@@ -236,7 +243,9 @@ def formula_sortu_2(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #3.mailako bektorea sortzeko (Hirdruroak + Oxidoak)
 def formula_sortu_3(n):
@@ -249,7 +258,9 @@ def formula_sortu_3(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1=np.concatenate((hidruroak[6], oxidoak[6]), axis=0)
+    linka2=np.concatenate((hidruroak[7], oxidoak[7]), axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 
 #4.mailako bektorea sortzeko (GatzBitarrak)
@@ -270,7 +281,9 @@ def formula_sortu_4(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #5.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak)
 def formula_sortu_5(n):
@@ -284,7 +297,10 @@ def formula_sortu_5(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1]),axis=0)
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #6.mailako bektorea sortzeko (Hidroxidoak)
 def formula_sortu_6(n):
@@ -304,7 +320,9 @@ def formula_sortu_6(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #7.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak, Hidroxidoak)
 def formula_sortu_7(n):
@@ -320,7 +338,9 @@ def formula_sortu_7(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #8.mailako bektorea sortzeko (Oxoazidoak)
 def formula_sortu_8(n):
@@ -340,7 +360,9 @@ def formula_sortu_8(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #9.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak + Hidroxidoak + Oxoazidoak)
 def formula_sortu_9(n):
@@ -357,7 +379,9 @@ def formula_sortu_9(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5], azidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0], azidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1], azidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6], azidoak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7], azidoak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #10.mailako bektorea sortzeko (Oxoazidoak)
 def formula_sortu_10(n):
@@ -377,7 +401,9 @@ def formula_sortu_10(n):
             a = random.randint(1, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #11.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak + Hidroxidoak + Oxoazidoak + GatzHirutarrak)
 def formula_sortu_11(n):
@@ -395,7 +421,9 @@ def formula_sortu_11(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5], azidoak[5], gatzhirutarrak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0], azidoak[0], gatzhirutarrak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1], azidoak[1], gatzhirutarrak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6], azidoak[6], gatzhirutarrak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7], azidoak[7], gatzhirutarrak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 @st.cache
 @st.experimental_memo
@@ -445,7 +473,9 @@ def formula_sortu_1_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #2.mailako bektorea sortzeko (Oxidoak)
 def formula_sortu_2_no_trad(n):
@@ -465,7 +495,9 @@ def formula_sortu_2_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #3.mailako bektorea sortzeko (Hirdruroak + Oxidoak)
 def formula_sortu_3_no_trad(n):
@@ -478,7 +510,9 @@ def formula_sortu_3_no_trad(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1=np.concatenate((hidruroak[6], oxidoak[6]), axis=0)
+    linka2=np.concatenate((hidruroak[7], oxidoak[7]), axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 
 #4.mailako bektorea sortzeko (GatzBitarrak)
@@ -499,7 +533,9 @@ def formula_sortu_4_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #5.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak)
 def formula_sortu_5_no_trad(n):
@@ -513,7 +549,9 @@ def formula_sortu_5_no_trad(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #6.mailako bektorea sortzeko (Hidroxidoak)
 def formula_sortu_6_no_trad(n):
@@ -533,7 +571,9 @@ def formula_sortu_6_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #7.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak, Hidroxidoak)
 def formula_sortu_7_no_trad(n):
@@ -549,7 +589,9 @@ def formula_sortu_7_no_trad(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #8.mailako bektorea sortzeko (Oxoazidoak)
 def formula_sortu_8_no_trad(n):
@@ -569,7 +611,9 @@ def formula_sortu_8_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #9.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak + Hidroxidoak + Oxoazidoak)
 def formula_sortu_9_no_trad(n):
@@ -586,7 +630,9 @@ def formula_sortu_9_no_trad(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5], azidoak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0], azidoak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1], azidoak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6], azidoak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7], azidoak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #10.mailako bektorea sortzeko (Oxoazidoak)
 def formula_sortu_10_no_trad(n):
@@ -606,7 +652,9 @@ def formula_sortu_10_no_trad(n):
             a = random.randint(2, 3)
             #print(a)
         galderak_izena[i]=izena_matrizea[i][a]
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 = formulen_matrizea[:, 5]
+    linka2=izena_matrizea[:,5]
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 #11.mailako bektorea sortzeko (Hidruroak + Oxidoak + GatzBitarrak + Hidroxidoak + Oxoazidoak + GatzHirutarrak)
 def formula_sortu_11_no_trad(n):
@@ -624,7 +672,9 @@ def formula_sortu_11_no_trad(n):
     erantzunak_sistematiko = np.concatenate((hidruroak[5], oxidoak[5],gatzbitarrak[5], hidroxidoak[5], azidoak[5], gatzhirutarrak[5]), axis=0)
     erantzunak_formulak=np.concatenate((hidruroak[0],oxidoak[0],gatzbitarrak[0], hidroxidoak[0], azidoak[0], gatzhirutarrak[0]),axis=0)
     galderak_izena =np.concatenate((hidruroak[1],oxidoak[1],gatzbitarrak[1], hidroxidoak[1], azidoak[1], gatzhirutarrak[1]),axis=0)
-    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko
+    linka1 =np.concatenate((hidruroak[6],oxidoak[6],gatzbitarrak[6], hidroxidoak[6], azidoak[6], gatzhirutarrak[6]),axis=0)
+    linka2 =np.concatenate((hidruroak[7],oxidoak[7],gatzbitarrak[7], hidroxidoak[7], azidoak[7], gatzhirutarrak[7]),axis=0)
+    return erantzunak_formulak, galderak_izena, galderak_formula, erantzunak_tradizionala, erantzunak_stock, erantzunak_sistematiko,linka1,linka2
 
 
 @st.cache
@@ -702,3 +752,5 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, emaitzen_matr, 
             st.markdown(f" Stock:  {emaitzen_matr[i][2]} ")
             st.markdown(f" Sistematikoa:  {emaitzen_matr[i][3]} ")
     return nota
+
+

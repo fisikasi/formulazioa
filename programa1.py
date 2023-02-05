@@ -6,7 +6,7 @@ import math
 from PIL import Image
 import AUTOZUZENKETAK.bektore_sortzailea as bs
 
-image = Image.open(r'./AUTOZUZENKETAK/fisikasi.png')
+image = Image.open(r'C:\Users\Regato\Desktop\STREAMLIT\FORMULAZIOA\AUTOZUZENKETAK\fisikasi.png')
 
 #STREAMLIT ORRIALDEA
 #--------------------------------------------------
@@ -16,10 +16,10 @@ link = '[F i s i k a s i/Formulazioa](https://www.youtube.com/watch?v=O-t8mW5ODV
 st.markdown(link, unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center; color: black;'>Formulazio ez-organikoa Euskeraz</h1>", unsafe_allow_html=True)
 #container1=st.container()
-expander = st.expander("Frogaren konfigurazioa")
 with container1:
     st.image(image, width=200)
 container2=st.container()
+expander = st.expander("Frogaren konfigurazioa")
 with expander:
     ariketa_mota = st.selectbox(
             'Aukeratu frogaren zailtasuna',
@@ -35,16 +35,22 @@ with expander:
     aukera = st.radio(
             "Erabaki nomenklatura tradizionala erabili nahi duzun ala ez",
             ('Tradizionalarekin', 'Tradizionalik gabe'))
-#with container1:
-#   st.markdown("<h3 style='text-align: center;"
-#              " color: black;'>OHARRAK</h3>",
-#               unsafe_allow_html=True)
-#   st.markdown("<div style='text-align: center; "
-#               "color: black;'>1.- Gogoratu izenak idaztean bukaerako -a itsatsia idazten</div>",
-#               unsafe_allow_html=True)
-#    st.markdown("<div style='text-align: center; color: black;'>2."
-#                "- Konposaturen bat nomenklatura jakin batean izendatzen ez bada  *Ez da izendatzen* testua idatzi</div>",
-#                unsafe_allow_html=True)
+    #aukera_ordenatuta = st.radio(
+     #   "Konposatuak modu ordenatuan nahi dituzu edo nahastuta",
+      #  ('Ordenatuta', 'Nahastuta'))
+with container2:
+   st.markdown("<h3 style='text-align: center;"
+              " color: black;'>OHARRAK</h3>",
+               unsafe_allow_html=True)
+   st.markdown("<div style='text-align: center; "
+               "color: black;'>1.- Aplikazioak ez du *kobre* hitza onartzen, bakarrik *kupre*</div>",
+               unsafe_allow_html=True)
+   st.markdown("<div style='text-align: center; color: black;'>2."
+                "- Konposaturen bat nomenklatura jakin batean izendatzen ez bada  *Ez da izendatzen* testua idatzi</div>",
+                unsafe_allow_html=True)
+   st.markdown("<div style='text-align: center; color: black;'>3."
+               "- Froga berri bat egin nahi duzunean aurreko emaitzak borratu beharko dituzu erantzun laukietatik</div>",
+               unsafe_allow_html=True)
 
 
 col1, col2, col3= st.columns([3,1,3])
@@ -68,6 +74,7 @@ def check_answer(user_formulazioa, matrizea):
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.error(f"Ez, {i+1+n}. galderaren erantzun zuzena hurrengoa da:")
                 st.markdown(f" Formula:  {matrizea[0][i]} ")
+                st.markdown(f" Birpasatzeko bideoa:  {matrizea[7][i]} ")
     return nota
 def check_answer_no_trad(user_formulazioa, matrizea):
     n=len(user_formulazioa)
@@ -83,6 +90,7 @@ def check_answer_no_trad(user_formulazioa, matrizea):
                 st.markdown(f"**{i + 1 + n}.-**  **{matrizea[1][i]}** ")
                 st.error(f"Ez, {i+1+n}. galderaren erantzun zuzena hurrengoa da:")
                 st.markdown(f" Formula:  {matrizea[0][i]} ")
+                st.markdown(f" Birpasatzeko bideoa:  {matrizea[7][i]} ")
     return nota
 
 def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
@@ -96,15 +104,8 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
                     berria =string.replace("(mon)", "")
                     berria1=string.replace("(", "")
                     berria1=berria1.replace(")","")
-                    print(berria)
-                    print(berria1)
-                elif "(mono)" in matrizea[5][i].lower():
-                    string=matrizea[5][i].lower()
-                    berria =string.replace("(mono)", "")
-                    berria1=string.replace("(", "")
-                    berria1=berria1.replace(")","")
-                    print(berria)
-                    print(berria1)
+                    #print(berria)
+                    #print(berria1)
                     if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower()==berria.lower()[:-1]\
                             or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[i].lower()==berria1.lower()[:-1]:
                         with col3:
@@ -118,6 +119,44 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
                             st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
                             st.markdown(f" Stock:  {matrizea[4][i]} ")
                             st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                            st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
+
+                elif "(mono)" in matrizea[5][i].lower():
+                    string=matrizea[5][i].lower()
+                    berria =string.replace("(mono)", "")
+                    berria1=string.replace("(", "")
+                    berria1=berria1.replace(")","")
+                    #print(berria)
+                    #print(berria1)
+                    if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower()==berria.lower()[:-1]\
+                            or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[i].lower()==berria1.lower()[:-1]:
+                        with col3:
+                            st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                            st.success("Erantzun zuzena!")
+                        nota = nota + 1
+                    else:
+                        with col3:
+                            st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                            st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
+                            st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
+                            st.markdown(f" Stock:  {matrizea[4][i]} ")
+                            st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                            st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
+                else:
+                    if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower()==berria.lower()[:-1]\
+                            or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[i].lower()==berria1.lower()[:-1]:
+                        with col3:
+                            st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                            st.success("Erantzun zuzena!")
+                        nota = nota + 1
+                    else:
+                        with col3:
+                            st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                            st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
+                            st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
+                            st.markdown(f" Stock:  {matrizea[4][i]} ")
+                            st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                            st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
             else:
                 with col3:
                     st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
@@ -125,6 +164,7 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
                     st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
                     st.markdown(f" Stock:  {matrizea[4][i]} ")
                     st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                    st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
         else:
             with col3:
                 st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
@@ -132,6 +172,8 @@ def check_answer_1(tradizionala_bek, stock_bek, sistematiko_bek, matrizea):
                 st.markdown(f" Tradizionala:  {matrizea[3][i]} ")
                 st.markdown(f" Stock:  {matrizea[4][i]} ")
                 st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
+
     return nota
 def check_answer_1_no_tradizionala(stock_bek, sistematiko_bek, matrizea):
     n=len(stock_bek)
@@ -143,15 +185,9 @@ def check_answer_1_no_tradizionala(stock_bek, sistematiko_bek, matrizea):
                 berria = string.replace("(mon)", "")
                 berria1 = string.replace("(", "")
                 berria1 = berria1.replace(")", "")
-                print(berria)
-                print(berria1)
-            elif "(mono)" in matrizea[5][i].lower():
-                string = matrizea[5][i].lower()
-                berria = string.replace("(mono)", "")
-                berria1 = string.replace("(", "")
-                berria1 = berria1.replace(")", "")
-                print(berria)
-                print(berria1)
+                #print(berria)
+                #print(berria1)
+                ###
                 if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower() == berria.lower()[:-1] \
                         or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[
                     i].lower() == berria1.lower()[:-1]:
@@ -165,6 +201,44 @@ def check_answer_1_no_tradizionala(stock_bek, sistematiko_bek, matrizea):
                         st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                         st.markdown(f" Stock:  {matrizea[4][i]} ")
                         st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                        st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
+                        #print("2")
+            elif "(mono)" in matrizea[5][i].lower():
+                string = matrizea[5][i].lower()
+                berria = string.replace("(mono)", "")
+                berria1 = string.replace("(", "")
+                berria1 = berria1.replace(")", "")
+                #print(berria)
+                #print(berria1)
+                ####
+                if sistematiko_bek[i].lower() == berria.lower() or sistematiko_bek[i].lower() == berria.lower()[:-1] \
+                        or sistematiko_bek[i].lower() == berria1.lower() or sistematiko_bek[
+                    i].lower() == berria1.lower()[:-1]:
+                    with col3:
+                        st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                        st.success("Erantzun zuzena!")
+                    nota = nota + 1
+                else:
+                    with col3:
+                        st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                        st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
+                        st.markdown(f" Stock:  {matrizea[4][i]} ")
+                        st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                        st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
+                        #print("2")
+            else:
+                if sistematiko_bek[i].lower() == matrizea[5][i].lower() or sistematiko_bek[i].lower()==matrizea[5][i].lower()[:-1]:
+                    with col3:
+                        st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                        st.success("Erantzun zuzena!")
+                    nota = nota + 1
+                else:
+                    with col3:
+                        st.markdown(f"**{i + 1}.-**  **{matrizea[2][i]}** ")
+                        st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
+                        st.markdown(f" Stock:  {matrizea[4][i]} ")
+                        st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                        st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
                         #print("2")
         else:
             with col3:
@@ -172,10 +246,13 @@ def check_answer_1_no_tradizionala(stock_bek, sistematiko_bek, matrizea):
                 st.error(f"Ez, {i + 1}. galderaren erantzun zuzenak hurrengoak dira:")
                 st.markdown(f" Stock:  {matrizea[4][i]} ")
                 st.markdown(f" Sistematikoa:  {matrizea[5][i]} ")
+                st.markdown(f" Birpasatzeko bideoa:  {matrizea[6][i]} ")
                 #print("3")
                 #print(stock_bek[i].lower(), matrizea[4][i].lower())
                 #print(sistematiko_bek[i].lower(),  matrizea[5][i].lower())
     return nota
+
+
 
 def zailtasuna(mota):
     if mota=="Hidruroak":
@@ -204,6 +281,7 @@ def zailtasuna(mota):
 #FUNTZIO NAGUSIA---------------------------------
 def main(n,maila):
     matrizea1 = bs.formulak_sortu(n, maila)
+    matrizea1=np.array(matrizea1)
     user_answers_trad = []
     user_answers_stock = []
     user_answers_sist = []
@@ -239,6 +317,7 @@ def main(n,maila):
 
 def main_no_tradizionala(n,maila):
     matrizea1 = bs.formulak_sortu_no_trad(n, maila)
+    matrizea1 = np.array(matrizea1)
     user_answers_stock = []
     user_answers_sist = []
     user_answers_form = []
